@@ -95,7 +95,7 @@ public class Main {
 			}
 
 			ct.simulateClients();
-			System.out.print(ct.getServerResponse());
+			System.out.println(ct.getServerResponse());
 			System.out.flush();
 			System.out.println("\nMean server response time (ms): " + ct.getMeanResponseTime());
 		} 
