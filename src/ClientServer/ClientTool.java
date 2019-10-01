@@ -1,4 +1,5 @@
 import java.net.InetAddress;
+import java.util.stream.Stream;
 
 public class ClientTool {
 	public Client[] clients;
@@ -30,7 +31,7 @@ public class ClientTool {
 		}
 	}
 	//Getter from clients[]
-	public String getServerResponse() {
+	public Stream<String> getServerResponse() {
 		//first client as the response
 		return clients[0].getServerResponse();
 	}
