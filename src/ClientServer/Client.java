@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.stream.Stream;
 
 public class Client implements Runnable {
 	InetAddress hostName;
@@ -14,7 +15,7 @@ public class Client implements Runnable {
 	long finalTime;
 	long responseTime;
 	int selection;
-	String serverResponse;
+	Stream<String> serverResponse;
 	//Client constructor
 	public Client(InetAddress host, int port) {
 		this.hostName = host;
@@ -25,7 +26,7 @@ public class Client implements Runnable {
 		selection = number;
 	}
 	//Response getter method
-	public String getServerResponse() {
+	public Stream<String> getServerResponse() {
 		return serverResponse;
 	}
 	//Response Time getter method
@@ -51,9 +52,7 @@ public class Client implements Runnable {
 			//Write selection to the stream
 			out.println(selection);
 			//Read from response from the stream
-			while (in.readLine() != null) {
-			serverResponse = in.readLine();
-			}
+			serverResponse = in.lines();
 			//Final time after socket reply
 			finalTime = System.currentTimeMillis();
 			//Elapsed Response time
@@ -65,7 +64,6 @@ public class Client implements Runnable {
 		catch (Exception e) {
 			System.out.println("Can't open socket at address: " + hostName + " and port: " + portNumber); 
 			e.printStackTrace();
-			System.exit(-1);
 		}
 		////////////////////////////////////////////
 		//////beginning of oracle source code///////
