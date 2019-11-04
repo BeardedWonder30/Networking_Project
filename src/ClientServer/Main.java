@@ -1,10 +1,22 @@
+//Group 5:
+//Bailey, Garrett
+//Buffkin, David
+//Matarese, Domninic
+//Simpson, Charles
+
+//Workstations
+//cisvm-wkstZerind-108 Server
+//cisvm-wkstZerind-109 Client
+
+//IP's
+//192.168.101.108 Server
+//192.168.101.109 Client
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 public class Main {
-	//cisvm-wkstn2-108
-	//192.168.101.108 3389
 	public static void main(String[] args) {
 		Scanner input = new Scanner(System.in);
 		//Verify command line argument offers exactly two args, one for IP and one for Port
@@ -42,37 +54,40 @@ public class Main {
 				return;
 			}
 		}
-
-		int numOfClients;
+		//Initializes number of Clients to be selected by user.
+		int numOfclients;
 		System.out.print("Enter the number of clients to run: ");
+		//Only accepts Int for # of Clients
 		while(!input.hasNextInt()) {
 			System.out.println("Invalid number of clients");
 			input.next();
 			System.out.print("Enter the number of clients to run: ");
 		}
-		numOfClients = input.nextInt();
-
-		if (numOfClients < 1) {
+		numOfclients = input.nextInt();
+		//Number of clients cannot be negative or 0. Exit program.
+		if (numOfclients < 1) {
 			System.out.println("Number of clients must be at least 1");
 			return;
 		}
-
-		ClientTool ct = new ClientTool(serverIP, port, numOfClients);
+		//Initializes new ClientTool with IP/Port from command line and # of Clients from User
+		ClientTool ct = new ClientTool(serverIP, port, numOfclients);
 
 		//Initialize quitLoop to false unless user selects 7 - Quit
 		boolean quitLoop = false;
+		////////////////////////////////////
 		//while executes until quitLoop true
+		////////////////////////////////////
 		while (quitLoop == false) {
 			//Display Menu
 			printMenu();
 			//Prompt the user for a command
 			System.out.print("Please select a number from the above list: ");
-
+			//Takes user-selected choice from client. Closes program if not int
 			int choice;
 			try {choice = input.nextInt();
 			ct.setSelection(choice);}
 			catch(InputMismatchException e){
-				System.out.println("Not a number. Please select a number from the above list");
+				System.out.println("Not a number. Have a nice day.");
 				return;
 			}
 			//Test user input for command validity
@@ -83,7 +98,7 @@ public class Main {
 				try{choice = input.nextInt();
 				ct.setSelection(choice);}
 				catch(InputMismatchException e){
-					System.out.println("Not a number. Please select a number from the above list");
+					System.out.println("Not a number. Have a nice day");
 					System.exit(1);
 				}
 			}
@@ -93,14 +108,19 @@ public class Main {
 				System.out.println("Menu Closed. Have a nice day.");
 				System.exit(1);
 			}
-
+			//Generates response information for client via Threading # of clients to run
 			ct.simulateClients();
-			System.out.println(ct.getServerResponse());
+			//Prints the final appended Server Response
+			System.out.print(ct.getServerResponse());
 			System.out.flush();
+			//Prints the final average server response time
 			System.out.println("\nMean server response time (ms): " + ct.getMeanResponseTime());
+			//////////////////
+			//End of 'quitLoop'
+			//////////////////
 		} 
 	}
-
+	//Client Menu
 	public static void printMenu() {
 		System.out.println("1. Host current Date and Time");
 		System.out.println("2. Host uptime");
@@ -111,13 +131,3 @@ public class Main {
 		System.out.println("7. Quit");
 	}
 }
-
-//Workstations
-//cisvm-wkstZerind-108
-//cisvm-wkstZerind-109
-
-//IP's
-//192.168.101.108
-//192.168.101.109
-
-//Port 3389
